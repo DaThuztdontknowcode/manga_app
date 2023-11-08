@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">manga_app</string>
+    <string name="do_not_have_any_account_signup">Do not have any Account? <b>SignUp</b> </string>
+</resources>

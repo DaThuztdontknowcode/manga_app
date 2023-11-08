@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "944937787763",
+    "project_id": "mangaapp-1cc23",
+    "storage_bucket": "mangaapp-1cc23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944937787763:android:796645e24592d45c6da506",
+        "android_client_info": {
+          "package_name": "com.example.manga_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApsOChhhZ4OcnQx6WiHW3fxt4vd3pp7FQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
