@@ -73,7 +73,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/nameTil"
-                android:layout_marginTop="10dp"
                 app:hintEnabled="false"
                 android:background="@drawable/shape_input"
                 >

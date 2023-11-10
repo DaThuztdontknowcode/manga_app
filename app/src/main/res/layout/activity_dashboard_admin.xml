@@ -48,8 +48,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
+        android:padding="5dp"
         android:layout_marginLeft="10dp"
         android:hint="Search"
+        android:background="@drawable/shape_edittext1"
         android:textColorHint="@color/gray1"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -73,23 +75,25 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
-    <Button
-        android:id="@+id/addCategoryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+ Add Category"
-        android:layout_weight="1"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/shape_button"
-        android:minHeight="50dp"
-        android:textAllCaps="false"
-        android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/addCategoryBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:backgroundTint="#003A68"
+            android:minHeight="50dp"
+            android:text="+ Add Category"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addPdfFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_picture_as_pdf_24"
-        app:backgroundTint="#5C00FF"
+        app:backgroundTint="#003A68"
         app:fabCustomSize="50dp"/>
     </LinearLayout>
 </RelativeLayout>
