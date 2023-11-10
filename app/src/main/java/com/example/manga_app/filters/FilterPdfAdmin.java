@@ -1,17 +1,20 @@
-package com.example.manga_app;
+package com.example.manga_app.filters;
 
 import android.widget.Filter;
 
+import com.example.manga_app.adapters.AdapterPdfAdmin;
+import com.example.manga_app.models.ModelPdf;
+
 import java.util.ArrayList;
 
-public class FilterCategory extends Filter {
-    ArrayList<ModelCategory> filterList;
-    AdapterCategory adapterCategory;
+public class FilterPdfAdmin extends Filter {
+    ArrayList<ModelPdf> filterList;
+    AdapterPdfAdmin adapterPdfAdmin;
 
     //constructor
-    public FilterCategory(ArrayList<ModelCategory> filterList, AdapterCategory adapterCategory) {
+    public FilterPdfAdmin(ArrayList<ModelPdf> filterList, AdapterPdfAdmin adapterPdfAdmin) {
         this.filterList = filterList;
-        this.adapterCategory = adapterCategory;
+        this.adapterPdfAdmin = adapterPdfAdmin;
     }
 
     @Override
@@ -19,9 +22,9 @@ public class FilterCategory extends Filter {
         FilterResults results = new FilterResults();
         if (constraint != null && constraint.length() > 0) {
             constraint = constraint.toString().toUpperCase();
-            ArrayList<ModelCategory> filteredModels = new ArrayList<>();
+            ArrayList<ModelPdf> filteredModels = new ArrayList<>();
             for (int i = 0; i < filterList.size(); i++) {
-                if (filterList.get(i).getCategory().toUpperCase().contains(constraint)) {
+                if (filterList.get(i).getTitle().toUpperCase().contains(constraint)) {
                     filteredModels.add(filterList.get(i));
                 }
             }
@@ -36,7 +39,7 @@ public class FilterCategory extends Filter {
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
-        adapterCategory.categoryArrayList = (ArrayList<ModelCategory>)results.values;
-        adapterCategory.notifyDataSetChanged();
+        adapterPdfAdmin.pdfArrayList = (ArrayList<ModelPdf>)results.values;
+        adapterPdfAdmin.notifyDataSetChanged();
     }
 }

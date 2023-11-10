@@ -1,7 +1,8 @@
-package com.example.manga_app;
+package com.example.manga_app.adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.manga_app.PdfListAdminActivity;
+import com.example.manga_app.filters.FilterCategory;
+import com.example.manga_app.models.ModelCategory;
 import com.example.manga_app.databinding.RowCategoryBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,7 +46,10 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
     @Override
     public void onBindViewHolder(@NonNull HolderCategory holder, int position) {
         ModelCategory model = categoryArrayList.get(position);
+        String id = model.getId();
         String category = model.getCategory();
+        String uid = model.getUid();
+        String timestamp= model.getTimestamp();
         holder.categoryTv.setText(category);
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +73,16 @@ public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder
                         .show();
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            Intent intent = new Intent(context, PdfListAdminActivity.class);
+            intent.putExtra("categoryId",id);
+            intent.putExtra("categoryTitle",category);
+            context.startActivity(intent);
+
+        }
+    });
     }
 
     private void deleteCategory(ModelCategory model) {

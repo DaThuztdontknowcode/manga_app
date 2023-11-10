@@ -1,10 +1,5 @@
 package com.example.manga_app;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +9,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.manga_app.databinding.ActivityPdfAdd2Binding;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,7 +37,7 @@ public class PdfAddActivity2 extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
 
-    private ArrayList<ModelCategory> categoryArrayList;
+    private ArrayList<String> categoryTitleArrayList, categoryIdArrayList;
     private static final int PDF_PICK_CODE = 1000;
     private Uri pdfUri = null;
     private static final String TAG = "ADD_PDF_TAG";
@@ -78,19 +78,18 @@ public class PdfAddActivity2 extends AppCompatActivity {
         });
     }
 
-    private String title = "", description = "", category = "";
+    private String title = "", description = "";
 
     private void validateData() {
         Log.d(TAG,"validateData: validating data...");
         title = binding.titleEt.getText().toString().trim();
         description = binding.descriptionTilEt.getText().toString().trim();
-        category = binding.categoryTv.getText().toString().trim();
         //validate data
         if (TextUtils.isEmpty(title)) {
             Toast.makeText(this, "Enter Title...", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(description)) {
             Toast.makeText(this, "Enter Description...", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(category)) {
+        } else if (TextUtils.isEmpty(selectedCategoryTitle)) {
             Toast.makeText(this, "Pick Category...", Toast.LENGTH_SHORT).show();
         } else if (pdfUri == null) {
             Toast.makeText(this, "Pick Pdf...", Toast.LENGTH_SHORT).show();
@@ -137,7 +136,7 @@ public class PdfAddActivity2 extends AppCompatActivity {
         hashMap.put("id", ""+timestamp);
         hashMap.put("title", ""+title);
         hashMap.put("description", ""+description);
-        hashMap.put("category", ""+category);
+        hashMap.put("categoryId", ""+selectedCategoryId);
         hashMap.put("url", ""+uploadedPdfUrl);
         hashMap.put("timestamp", timestamp);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Books");
@@ -161,37 +160,21 @@ public class PdfAddActivity2 extends AppCompatActivity {
                         });
                     }
 
-    private void categoryPickDialog() {
-        Log.d(TAG, "categoryPickDialog: showing category pick dialog");
-        String[] categoriesArray = new String[categoryArrayList.size()];
-        for (int i = 0; i < categoryArrayList.size(); i++) {
-            categoriesArray[i] = categoryArrayList.get(i).getCategory();
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick Category")
-                .setItems(categoriesArray, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String selectedCategory = categoriesArray[which];
-                        binding.categoryTv.setText(selectedCategory);
-                        Log.d(TAG, "onClick: selected Category: " + selectedCategory);
-                    }
-                })
-                .show();
-    }
-
     private void loadPdfCategories() {
         Log.d(TAG, "loadPDFCategories: Loading PDF Category");
-        categoryArrayList = new ArrayList<>();
+        categoryTitleArrayList = new ArrayList<>();
+        categoryIdArrayList = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Categories");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                categoryArrayList.clear();
+                categoryTitleArrayList.clear();
+                categoryIdArrayList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    ModelCategory model = ds.getValue(ModelCategory.class);
-                    categoryArrayList.add(model);
-                    Log.d(TAG, "onDataChange: " + model.getCategory());
+                    String categoryId=""+ds.child("id").getValue();
+                    String categoryTitle = ""+ds.child("category").getValue();
+                    categoryTitleArrayList.add(categoryTitle);
+                    categoryIdArrayList.add(categoryId);
                 }
             }
 
@@ -201,6 +184,28 @@ public class PdfAddActivity2 extends AppCompatActivity {
             }
         });
     }
+    private String selectedCategoryId, selectedCategoryTitle;
+    private void categoryPickDialog() {
+        Log.d(TAG, "categoryPickDialog: showing category pick dialog");
+        String[] categoriesArray = new String[categoryTitleArrayList.size()];
+        for (int i = 0; i < categoryTitleArrayList.size(); i++) {
+            categoriesArray[i] = categoryTitleArrayList.get(i);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick Category")
+                .setItems(categoriesArray, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedCategoryTitle = categoryTitleArrayList.get(which);
+                        selectedCategoryId = categoryIdArrayList.get(which);
+
+                        Log.d(TAG, "onClick: selected Category: " + selectedCategoryId+""+selectedCategoryTitle);
+                    }
+                })
+                .show();
+    }
+
+
 
     private void pdfPickIntent() {
         Log.d(TAG, "pdfPickIntent: starting pdf pick intent");

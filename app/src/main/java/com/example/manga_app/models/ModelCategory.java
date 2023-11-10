@@ -1,4 +1,4 @@
-package com.example.manga_app;
+package com.example.manga_app.models;
 public class ModelCategory {
     String id, category, uid;
     String timestamp; // Sửa kiểu dữ liệu của timestamp thành String

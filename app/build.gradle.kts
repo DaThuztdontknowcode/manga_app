@@ -44,6 +44,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.2.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation( "androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
